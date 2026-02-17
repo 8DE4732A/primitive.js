@@ -2,96 +2,142 @@
 <html>
 	<head>
 		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="stylesheet" href="css/app.css" />
 		<title>primitive.js &ndash; drawing images with geometric primitives</title>
 	</head>
 
 	<body>
-		<p><img src="logo.png" alt="Logo" /></p>
-		<h1>primitive.js</h1>
-		<p>This is a JavaScript port of the <a href="https://primitive.lol">https://primitive.lol</a> app, originally created by Michael Fogleman. Its purpose is to re-draw existing images using only primitive geometric shapes.</p>
-		<p>You can find some additional (technical) information in the <a href="https://github.com/ondras/primitive.js">GitHub repository</a>. This page acts as a small demo where you can experiment with the algorithm.</p>
-		
-		<h2>Try it in your browser!</h2>
-		<form>
-			<h3>Pick an image file</h3>
-			<ul>
-				<li>From your computer: <input type="file" /></li>
-				<li>From URL (must be <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_enabled_image">CORS-enabled</a>): <input type="url" name="url" /></li>
-			</ul>
-			<h3>Check or adjust various rendering options</h3>
-			<div>
-				<p>Add <span class="value"></span> geometric shapes
-					<em>(large number: better results, slower)</em>
-				</p>
-				<input name="steps" type="range" min="1" max="500" value="50" />
-			</div>
-			<div>
-				<p>Use these shape types:</p>
-				<label><input type="checkbox" name="shapeType" value="triangle" checked="checked" />Triangles</label><br/>
-				<label><input type="checkbox" name="shapeType" value="rectangle" />Rectangles</label><br/>
-				<label><input type="checkbox" name="shapeType" value="ellipse" />Ellipses</label><br/>
-				<label><input type="checkbox" name="shapeType" value="smiley" />Smileys</label>
-			</div>
-			<div>
-				<p>Fill background with:</p>
-				<label><input type="radio" name="fill" value="auto" checked="checked" />an auto-detected color</label><br/>
-				<label><input type="radio" name="fill" value="fixed" />a fixed color: </label>
-				<input type="color" value="#ffffff" name="fill-color" />
-			</div>
-			<div>
-				<p>Starting opacity: <span class="value"></span></p>
-				<input name="alpha" type="range" min="0" max="1" step="0.1" value="0.5" /><br/>
-				<label><input type="checkbox" name="mutateAlpha" checked="checked" />Adjust opacity automatically</label>
-			</div>
-			<div>
-				<p>Computation size: <span class="value"></span> pixels
-					<em>(smaller is faster)</em>
-				</p>
-				<input name="computeSize" type="range" min="128" max="512" value="256" /><br/>
-			</div>
-			<div>
-				<p>Viewing size: <span class="value"></span> pixels</p>
-				<input name="viewSize" type="range" min="256" max="2048" value="512" />
-			</div>
-			<div>
-				<p>Start every iteration with <span class="value"></span> random shapes
-					<em>(larger number: more precise results, slower)</em>
-				</p>
-				<input name="shapes" type="range" min="1" max="1000" value="200" />
-			</div>
-			<div>
-				<p>Stop shape optimization after <span class="value"></span> failures
-					<em>(larger number: more precise results, slower)</em>
-				</p>
-				<input name="mutations" type="range" min="0" max="100" value="30" />
+		<div class="container">
+			<header>
+				<img src="logo.png" alt="Logo" />
+				<h1>primitive.js</h1>
+			</header>
+
+			<div class="intro">
+				<p>This is a JavaScript port of the <a href="https://primitive.lol">primitive.lol</a> app, originally created by Michael Fogleman. Its purpose is to re-draw existing images using only primitive geometric shapes.</p>
+				<p>You can find some additional (technical) information in the <a href="https://github.com/ondras/primitive.js">GitHub repository</a>. This page acts as a small demo where you can experiment with the algorithm.</p>
 			</div>
 
-			<h3>Hit the button to start</h3>
-			<p>This is a CPU-intensive process. It might take a while.</p>
-			<input type="submit" value="Let's go!" />
-		</form>
+			<form>
+				<h2>Try it in your browser!</h2>
 
-		<section id="output">
-			<div>
-				<h3>Original</h3>
-				<div id="original"></div>
-			</div>
-			<div>
-				<h3>Result <span id="steps"></span></h3>
-				<div class="raster" id="raster"></div>
-				<div class="vector" id="vector"></div>
-				<label><input type="radio" name="type" value="raster" checked="checked" />Raster image: right-click to save</label><br/>
-				<label><input type="radio" name="type" value="vector" />Vector image: copy&amp;paste data from the text area below</label><br/>
-				<textarea class="vector" id="vector-text" spellcheck="false"></textarea>
-			</div>
-		</section>
+				<h3>Pick an image file</h3>
+				<div class="source-card">
+					<ul>
+						<li>From your computer: <input type="file" /></li>
+						<li>From URL (<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_enabled_image">CORS-enabled</a>): <input type="url" name="url" /></li>
+					</ul>
+				</div>
 
-		<footer>
-			&copy; 2016 <a href="https://ondras.zarovi.cz/">Ondřej Žára</a>, <a href="https://github.com/ondras/primitive.js">GitHub repository</a>
-		</footer>
-		
+				<h3>Check or adjust various rendering options</h3>
+				<div class="options-grid">
+					<div class="card">
+						<p>Add <span class="value"></span> geometric shapes
+							<em>(large number: better results, slower)</em>
+						</p>
+						<input name="steps" type="range" min="1" max="500" value="50" />
+					</div>
+					<div class="card">
+						<p>Use these shape types:</p>
+						<label><input type="checkbox" name="shapeType" value="triangle" checked="checked" />Triangles</label>
+						<label><input type="checkbox" name="shapeType" value="rectangle" />Rectangles</label>
+						<label><input type="checkbox" name="shapeType" value="ellipse" />Ellipses</label>
+						<label><input type="checkbox" name="shapeType" value="smiley" />Smileys</label>
+					</div>
+					<div class="card">
+						<p>Fill background with:</p>
+						<label><input type="radio" name="fill" value="auto" checked="checked" />Auto-detected color</label>
+						<label><input type="radio" name="fill" value="fixed" />Fixed color:
+							<input type="color" value="#ffffff" name="fill-color" />
+						</label>
+					</div>
+					<div class="card">
+						<p>Starting opacity: <span class="value"></span></p>
+						<input name="alpha" type="range" min="0" max="1" step="0.1" value="0.5" />
+						<label><input type="checkbox" name="mutateAlpha" checked="checked" />Adjust opacity automatically</label>
+					</div>
+					<div class="card">
+						<p>Computation size: <span class="value"></span> pixels
+							<em>(smaller is faster)</em>
+						</p>
+						<input name="computeSize" type="range" min="128" max="512" value="256" />
+					</div>
+					<div class="card">
+						<p>Viewing size: <span class="value"></span> pixels</p>
+						<input name="viewSize" type="range" min="256" max="2048" value="512" />
+					</div>
+					<div class="card">
+						<p>Start every iteration with <span class="value"></span> random shapes
+							<em>(larger number: more precise results, slower)</em>
+						</p>
+						<input name="shapes" type="range" min="1" max="1000" value="200" />
+					</div>
+					<div class="card">
+						<p>Stop shape optimization after <span class="value"></span> failures
+							<em>(larger number: more precise results, slower)</em>
+						</p>
+						<input name="mutations" type="range" min="0" max="100" value="30" />
+					</div>
+					<div class="card gif-option-card">
+						<label><input type="checkbox" id="gif-enabled" />Record generation as GIF</label>
+					</div>
+					<div class="card gif-option-card">
+						<label><input type="checkbox" id="webm-enabled" />Record generation as WebM video</label>
+					</div>
+				</div>
+
+				<h3>Hit the button to start</h3>
+				<p>This is a CPU-intensive process. It might take a while.</p>
+				<button type="submit" class="btn-primary">Let's go!</button>
+			</form>
+
+			<div class="progress-bar-container" id="progress-bar">
+				<div class="progress-bar-fill"></div>
+			</div>
+
+			<section id="output">
+				<div class="output-grid">
+					<div>
+						<h3>Original</h3>
+						<div id="original"></div>
+					</div>
+					<div>
+						<h3>Result <span id="steps"></span></h3>
+						<div class="raster" id="raster"></div>
+						<div class="vector" id="vector"></div>
+						<div class="result-controls">
+							<label><input type="radio" name="type" value="raster" checked="checked" />Raster image: right-click to save</label>
+							<label><input type="radio" name="type" value="vector" />Vector image: copy&amp;paste data from the text area below</label>
+						</div>
+						<textarea class="vector" id="vector-text" spellcheck="false"></textarea>
+					</div>
+				</div>
+
+				<div id="gif-panel">
+					<h3>GIF Export</h3>
+					<div class="gif-status" id="gif-status">Waiting for generation to finish...</div>
+					<div class="gif-progress-container">
+						<div class="gif-progress-fill" id="gif-progress"></div>
+					</div>
+					<div class="gif-preview" id="gif-preview"></div>
+					<a class="btn-download" id="gif-download" download="primitive.gif">Download GIF</a>
+				</div>
+
+				<div id="webm-panel">
+					<h3>WebM Video Export</h3>
+					<div class="gif-status" id="webm-status">Recording...</div>
+					<div class="gif-preview" id="webm-preview"></div>
+					<a class="btn-download" id="webm-download" download="primitive.webm">Download WebM</a>
+				</div>
+			</section>
+
+			<footer>
+				&copy; 2016 <a href="https://ondras.zarovi.cz/">Ondřej Žára</a>, <a href="https://github.com/ondras/primitive.js">GitHub repository</a>
+			</footer>
+		</div>
+
+		<script src="https://cdn.jsdelivr.net/npm/gif.js@0.2.0/dist/gif.min.js"></script>
 		<script src="js/app.js"></script>
 	</body>
 </html>
